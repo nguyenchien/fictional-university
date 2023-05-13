@@ -9,9 +9,14 @@
   }
   add_action('wp_enqueue_scripts', 'university_files');
   
-  // Change the title
+  // Hook setting for site
   function university_features() {
     add_theme_support('title-tag');
+    register_nav_menus(array(
+      'headerMenuLocation' => 'Header Menu Location',
+      'footerMenuLocation01' => 'Footer Menu Location 01',
+      'footerMenuLocation02' => 'Footer Menu Location 02',
+    ));
   }
   add_action('after_setup_theme', 'university_features');
 ?>

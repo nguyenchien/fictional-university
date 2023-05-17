@@ -18,13 +18,13 @@
             $homeEvents = new WP_Query(
               array(
                 'post_type' => 'event',
-                'posts_per_page' => -1,
-                'meta_key' => 'event_day',
+                'posts_per_page' => 2,
+                'meta_key' => 'event_date',
                 'orderby' => 'meta_value_num',
                 'order' => 'ASC',
                 'meta_query' => array(
                   array(
-                    'key' => 'event_day',
+                    'key' => 'event_date',
                     'value' => $today,
                     'type' => 'numeric',
                     'compare' => '>='
@@ -37,7 +37,7 @@
               <div class="event-summary">
                 <a class="event-summary__date t-center" href="#">
                   <?php
-                    $eventDay = new DateTime(get_field('event_day'));
+                    $eventDay = new DateTime(get_field('event_date'));
                     $month = $eventDay->format('M');
                     $day = $eventDay->format('d');
                   ?>
@@ -54,7 +54,7 @@
               <?php }
               wp_reset_postdata();
             ?>
-          <p class="t-center no-margin"><a href="<?php echo site_url('/events'); ?>" class="btn btn--blue">View All Events</a></p>
+          <p class="t-center no-margin"><a href="<?php echo get_post_type_archive_link('event'); ?>" class="btn btn--blue">View All Events</a></p>
         </div>
       </div>
       <div class="full-width-split__two">

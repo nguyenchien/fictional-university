@@ -19,4 +19,22 @@
     ));
   }
   add_action('after_setup_theme', 'university_features');
+
+  function university_adjust_posts($query) {
+    if ( !is_admin() && $query->is_main_query() && is_post_type_archive('event') ) {
+      $today = date('Ymd');
+      $query->set('meta_key', 'event_date');
+      $query->set('orderby', 'meta_value_num');
+      $query->set('order', 'ASC');
+      $query->set('meta_query', array (
+        array(
+          'key' => 'event_date',
+          'value' => $today,
+          'type' => 'numeric',
+          'compare' => '>='
+        )
+      ));
+    }
+  }
+  add_action('pre_get_posts', 'university_adjust_posts');
 ?>

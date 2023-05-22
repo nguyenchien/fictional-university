@@ -35,6 +35,12 @@
         )
       ));
     }
+    
+    if ( !is_admin() && $query->is_main_query() && is_post_type_archive('program') ) {
+      $query->set('order_by', 'title');
+      $query->set('order', 'ASC');
+      $query->set('posts_per_page', -1);
+    }
   }
   add_action('pre_get_posts', 'university_adjust_posts');
 ?>

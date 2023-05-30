@@ -18,12 +18,17 @@
           </p>
         </div>
         <div class="generic-content">
-          <?php the_content(); ?>
+          <div class="one-third">
+            <?php the_post_thumbnail(); ?>
+          </div>
+          <div class="two-thirds">
+            <?php the_content(); ?>
+          </div>
         </div>
         <?php
           $relatedPrograms = get_field('related_programs');
           if ($relatedPrograms) {
-          echo '<hr class="section-break">';
+          echo '<hr class="section-break" style="clear:both;">';
           echo '<h2 class="headline headline--medium">Subject(s) Taught</h2>';
           echo '<ul class="link-list min-list">';
           foreach ($relatedPrograms as $program) { ?>

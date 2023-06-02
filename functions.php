@@ -1,16 +1,13 @@
 <?php
-  // turn off warnings
-  error_reporting(E_ERROR | E_PARSE);
-
   // page banner
   function pageBanner($args = array()) {
-    if (!$args['title']) {
+    if (!isset($args['title'])) {
       $args['title'] = get_the_title();
     }
-    if (!$args['subtitle']) {
+    if (!isset($args['subtitle'])) {
       $args['subtitle'] = get_field('page_banner_sub_title');
     }
-    if (!$args['photo']) {
+    if (!isset($args['photo'])) {
         if (get_field('page_banner_background_image')) {
           $args['photo'] = get_field('page_banner_background_image')['sizes']['pageBanner'];
         } else {

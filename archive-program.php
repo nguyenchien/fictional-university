@@ -1,5 +1,8 @@
 <?php get_header(); 
-  pageBanner();
+  pageBanner(array(
+    'title' => 'All Programs',
+    'subtitle' => 'All Programs is going here',
+  ));
 ?>
 <div class="container container--narrow page-section">
   <ul class="link-list min-list">

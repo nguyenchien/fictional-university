@@ -1,5 +1,8 @@
 <?php get_header(); 
-  pageBanner();
+  pageBanner(array(
+    'title' => 'All Events',
+    'subtitle' => 'All events going in here'
+  ));
 ?>
 <div class="container container--narrow page-section">
   <?php

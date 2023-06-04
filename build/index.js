@@ -125,14 +125,27 @@ class Search {
   events() {
     this.openButton.on("click", this.openOverlay.bind(this));
     this.closeButton.on("click", this.closeOverlay.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keyup", this.keyPressDispathcher.bind(this));
   }
 
   // 3. methods
+  keyPressDispathcher(e) {
+    let keyCode = e.keyCode;
+    console.log(keyCode);
+    if (keyCode === 83) {
+      this.openOverlay();
+    }
+    if (keyCode === 27) {
+      this.closeOverlay();
+    }
+  }
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").addClass("body-no-scroll");
   }
   closeOverlay() {
     this.searchOverlay.removeClass("search-overlay--active");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").removeClass("body-no-scroll");
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Search);

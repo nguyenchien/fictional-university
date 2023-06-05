@@ -10,6 +10,7 @@
     while(have_posts()) {
       the_post();
       $mapLocation = get_field('map_location');
+      the_title();
       ?>
       <div class="marker" data-lat="<?php echo $mapLocation['lat']; ?>" data-lng="<?php echo $mapLocation['lng']; ?>"></div>
     <?php }

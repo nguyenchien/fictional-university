@@ -1,4 +1,4 @@
 /node_modules/
 .DS_Store
-package-lock.json
-src/browser-sync.config.js
+/package-lock.json
+/src/browser-sync.config.js

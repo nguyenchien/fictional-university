@@ -40,6 +40,9 @@ class Search {
     this.previousValue = this.searchField.val();
   }
   getResults () {
+    $.getJSON( "http://localhost:10010/wp-json/wp/v2/posts?search=" + this.searchField.val(), function(post) {
+      alert(post[0].title.rendered);
+    });
     if (this.searchField.val()) {
       this.resultsDiv.html('This is results of search...');
       this.isSpinnerVisible = false;

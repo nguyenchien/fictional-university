@@ -153,11 +153,17 @@ class Search {
     this.previousValue = this.searchField.val();
   }
   getResults() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON("http://localhost:10010/wp-json/wp/v2/posts?search=" + this.searchField.val(), function (post) {
-      alert(post[0].title.rendered);
-    });
     if (this.searchField.val()) {
-      this.resultsDiv.html('This is results of search...');
+      let $that = this;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.val(), function (posts) {
+        let resultHtml = '';
+        resultHtml += '<ul class="link-list min-list">';
+        posts.forEach(post => {
+          resultHtml += `<li><a href="${post.link}">${post.title.rendered}</a></li>`;
+        });
+        resultHtml += '</ul>';
+        $that.resultsDiv.html(resultHtml);
+      });
       this.isSpinnerVisible = false;
     } else {
       this.resultsDiv.html('');

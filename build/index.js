@@ -155,10 +155,12 @@ class Search {
   }
   getResults() {
     if (this.searchField.val()) {
-      let $that = this;
+      let resultHtml = '';
+      resultHtml = '<h2 class="search-overlay__section-title">General Information</h2>';
+
+      // call api wp
       jquery__WEBPACK_IMPORTED_MODULE_0___default().when(jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.val()), jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchField.val())).then((posts, pages) => {
         var combinedResults = posts[0].concat(pages[0]);
-        let resultHtml = '<h2 class="search-overlay__section-title">General Information</h2>';
         if (combinedResults.length) {
           resultHtml += '<ul class="link-list min-list">';
           combinedResults.forEach(item => {
@@ -168,8 +170,14 @@ class Search {
         } else {
           resultHtml += '<p>No results found!</p>';
         }
-        $that.resultsDiv.html(resultHtml);
+      }, error => {
+        resultHtml += `<p>${error && error.responseJSON ? error.responseJSON.message : 'Error!'}</p>`;
       });
+
+      // async result
+      setTimeout(() => {
+        this.resultsDiv.html(resultHtml);
+      }, 301);
       this.isSpinnerVisible = false;
     } else {
       this.resultsDiv.html('');

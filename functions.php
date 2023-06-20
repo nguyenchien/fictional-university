@@ -85,5 +85,16 @@
     $api['key'] = 'AIzaSyAQj28zH-bp5biS8H1qjAdiADOqzyVLn7c';
     return $api;
   }
-  add_filter('acf/fields/google_map/api', 'universityMapKey')
+  add_filter('acf/fields/google_map/api', 'universityMapKey');
+  
+  // register_rest_field api
+  function university_custom_rest() {
+    register_rest_field( 'post', 'authorName', array(
+      'get_callback' => 'get_post_meta_for_api'
+    ));
+  }
+  function get_post_meta_for_api() {
+    return get_the_author();
+  }
+  add_action('rest_api_init', 'university_custom_rest');
 ?>

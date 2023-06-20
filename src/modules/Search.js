@@ -55,7 +55,7 @@ class Search {
         if (combinedResults.length) {
           resultHtml += '<ul class="link-list min-list">';
           combinedResults.forEach((item) => {
-            resultHtml += `<li><a href="${item.link}">${item.title.rendered}</a></li>`;
+            resultHtml += `<li><a href="${item.link}">${item.title.rendered}</a> ${item.type == 'post' ? `by ${item.authorName}` : ''}</li>`;
           });
           resultHtml += '</ul>';
         } else {

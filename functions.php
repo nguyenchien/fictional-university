@@ -1,4 +1,7 @@
 <?php
+  // register rest api route
+  require_once( get_template_directory() . '/inc/search-route.php' );
+
   // page banner
   function pageBanner($args = array()) {
     if (!isset($args['title'])) {
@@ -28,6 +31,7 @@
 
   <?php
   // add style, script for theme
+  add_action('wp_enqueue_scripts', 'university_files');
   function university_files() {
     //wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyAQj28zH-bp5biS8H1qjAdiADOqzyVLn7c', NULL, '1.0', true);
     wp_enqueue_script('main-university-js', get_theme_file_uri('/build/index.js'), array('jquery'), '1.0', true);
@@ -39,9 +43,9 @@
       'root_url' => get_site_url(),
     ));
   }
-  add_action('wp_enqueue_scripts', 'university_files');
   
   // hook setting feature for theme
+  add_action('after_setup_theme', 'university_features');
   function university_features() {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
@@ -54,9 +58,9 @@
       'footerMenuLocation02' => 'Footer Menu Location 02',
     ));
   }
-  add_action('after_setup_theme', 'university_features');
 
   // hook pre get posts
+  add_action('pre_get_posts', 'university_adjust_posts');
   function university_adjust_posts($query) {
     if ( !is_admin() && $query->is_main_query() && is_post_type_archive('event') ) {
       $today = date('Ymd');
@@ -79,15 +83,15 @@
       $query->set('posts_per_page', -1);
     }
   }
-  add_action('pre_get_posts', 'university_adjust_posts');
   
+  add_filter('acf/fields/google_map/api', 'universityMapKey');
   function universityMapKey($api) {
     $api['key'] = 'AIzaSyAQj28zH-bp5biS8H1qjAdiADOqzyVLn7c';
     return $api;
   }
-  add_filter('acf/fields/google_map/api', 'universityMapKey');
   
   // register_rest_field api
+  add_action('rest_api_init', 'university_custom_rest');
   function university_custom_rest() {
     register_rest_field( 'post', 'authorName', array(
       'get_callback' => 'get_post_meta_for_api'
@@ -96,5 +100,4 @@
   function get_post_meta_for_api() {
     return get_the_author();
   }
-  add_action('rest_api_init', 'university_custom_rest');
 ?>

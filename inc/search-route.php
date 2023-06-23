@@ -9,7 +9,7 @@
   function universitySearchResult($data) {
     $mainQuery = new WP_Query(
       array (
-        'post_type' => array('post', 'page', 'events', 'programs', 'professor', 'campuses'),
+        'post_type' => array('post', 'page', 'event', 'program', 'professor', 'campus'),
         's' => sanitize_text_field($data['term'])
       )
     );
@@ -30,13 +30,20 @@
           'authorName' => get_the_author(),
         ));
       }
-      if (get_post_type() == 'events') {
+      if (get_post_type() == 'event') {
+        $eventDay = new DateTime(get_field('event_date'));
+        $month = $eventDay->format('M');
+        $day = $eventDay->format('d');
+        $description = wp_trim_words(get_the_content(), 5);
         array_push($result['events'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),
+          'month' => $month,
+          'day' => $day,
+          'description' => $description,
         ));
       }
-      if (get_post_type() == 'programs') {
+      if (get_post_type() == 'program') {
         array_push($result['programs'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),
@@ -46,9 +53,10 @@
         array_push($result['professor'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),
+          'image' => get_the_post_thumbnail_url(get_the_ID(), 'professorLandscape'),
         ));
       }
-      if (get_post_type() == 'campuses') {
+      if (get_post_type() == 'campus') {
         array_push($result['campuses'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),

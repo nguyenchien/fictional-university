@@ -160,7 +160,7 @@ class Search {
           <div class="row">
             <div class="one-third">
               <h2 class="search-overlay__section-title">General Information</h2>
-              ${result.generalData.length ? '<ul class="link-list min-list">' : `<p>No info found! Please try again.</p>.`}
+              ${result.generalData.length ? '<ul class="link-list min-list">' : `<p>No info found! Please try again.</p>`}
               ${result.generalData.map(item => {
           return `<li><a href="${item.permalink}">${item.title}</a> ${item.postType == 'post' ? `by ${item.authorName}` : ''} </li>`;
         }).join('')}
@@ -168,7 +168,7 @@ class Search {
             </div>
             <div class="one-third">
               <h2 class="search-overlay__section-title">Events</h2>
-              ${result.events.length ? '' : `<p>No events found! Let view <a href="${universityData.root_url}/events">all events</a></p>.`}
+              ${result.events.length ? '' : `<p>No events found! Let view <a href="${universityData.root_url}/events">all events</a></p>`}
               ${result.events.map(item => {
           return `
                 <div class="event-summary">
@@ -187,7 +187,7 @@ class Search {
         }).join('')}
               
               <h2 class="search-overlay__section-title">Programs</h2>
-              ${result.programs.length ? '<ul class="link-list min-list">' : `<p>No programs found! Let view <a href="${universityData.root_url}/programs">all programs</a></p>.`}
+              ${result.programs.length ? '<ul class="link-list min-list">' : `<p>No programs found! Let view <a href="${universityData.root_url}/programs">all programs</a></p>`}
               ${result.programs.map(item => {
           return `<li><a href="${item.permalink}">${item.title}</a></li>`;
         }).join('')}
@@ -195,7 +195,7 @@ class Search {
             </div>
             <div class="one-third">
               <h2 class="search-overlay__section-title">Professor</h2>
-              ${result.professor.length ? '<ul class="professor-cards">' : `<p>No professor found! Let view <a href="${universityData.root_url}/professor">all professor</a></p>.`}
+              ${result.professor.length ? '<ul class="professor-cards">' : `<p>No professor found! Let view <a href="${universityData.root_url}/professor">all professor</a></p>`}
               ${result.professor.map(item => {
           return `
                   <li class="professor-card__list-item">
@@ -209,7 +209,7 @@ class Search {
               ${result.professor.length ? '</ul>' : ''}
               
               <h2 class="search-overlay__section-title">Campuses</h2>
-              ${result.campuses.length ? '<ul class="link-list min-list">' : `<p>No campus found! Let view <a href="${universityData.root_url}/campuses">all campus</a></p>.`}
+              ${result.campuses.length ? '<ul class="link-list min-list">' : `<p>No campus found! Let view <a href="${universityData.root_url}/campuses">all campus</a></p>`}
               ${result.campuses.map(item => {
           return `<li><a href="${item.permalink}">${item.title}</a></li>`;
         }).join('')}

@@ -47,6 +47,7 @@
         array_push($result['programs'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),
+          'id' => get_the_ID(),
         ));
       }
       if (get_post_type() == 'professor') {
@@ -64,29 +65,37 @@
       }
     }
     
-    // get professor related with program
-    $professorRelatedProgramQuery = new WP_Query(
-      array(
-        'post_type' => 'professor',
-        'meta_query' => array(
-          array(
-            'key' => 'related_programs',
-            'value' => get_the_ID(),
-            'compare' => 'LIKE'
-          )
-        )
-      )
-    );
     
-    while ($professorRelatedProgramQuery->have_posts()) {
-      $professorRelatedProgramQuery->the_post();
-      if (get_post_type() == 'professor') {
-        array_push($result['professor'], array (
-          'title' => get_the_title(),
-          'permalink' => get_the_permalink(),
-          'image' => get_the_post_thumbnail_url(get_the_ID(), 'professorLandscape'),
+    // get professor related with program
+    if ($result['programs']) {
+      $programMetaQuery = array('relation' => 'OR');
+      foreach ($result['programs'] as $item) {
+        array_push($programMetaQuery, array(
+          'key' => 'related_programs',
+          'value' => $item['id'],
+          'compare' => 'LIKE'
         ));
       }
+      
+      $professorRelatedProgramQuery = new WP_Query(
+        array(
+          'post_type' => 'professor',
+          'meta_query' => $programMetaQuery,
+        )
+      );
+      
+      while ($professorRelatedProgramQuery->have_posts()) {
+        $professorRelatedProgramQuery->the_post();
+        if (get_post_type() == 'professor') {
+          array_push($result['professor'], array (
+            'title' => get_the_title(),
+            'permalink' => get_the_permalink(),
+            'image' => get_the_post_thumbnail_url(get_the_ID(), 'professorLandscape'),
+          ));
+        }
+      }
+      
+      $result['professor'] = array_values(array_unique($result['professor'], SORT_REGULAR));
     }
     
     return $result;

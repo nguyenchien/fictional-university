@@ -44,6 +44,15 @@
         ));
       }
       if (get_post_type() == 'program') {
+        $relatedCampus = get_field('related_campus');
+        if ($relatedCampus) {
+          foreach ($relatedCampus as $campus) {
+            array_push($result['campuses'], array (
+              'title' => get_the_title($campus),
+              'permalink' => get_the_permalink($campus),
+            ));
+          }
+        }
         array_push($result['programs'], array (
           'title' => get_the_title(),
           'permalink' => get_the_permalink(),
@@ -77,15 +86,15 @@
         ));
       }
       
-      $professorRelatedProgramQuery = new WP_Query(
+      $programRelatedQuery = new WP_Query(
         array(
-          'post_type' => 'professor',
+          'post_type' => array('professor', 'event'),
           'meta_query' => $programMetaQuery,
         )
       );
       
-      while ($professorRelatedProgramQuery->have_posts()) {
-        $professorRelatedProgramQuery->the_post();
+      while ($programRelatedQuery->have_posts()) {
+        $programRelatedQuery->the_post();
         if (get_post_type() == 'professor') {
           array_push($result['professor'], array (
             'title' => get_the_title(),
@@ -93,9 +102,24 @@
             'image' => get_the_post_thumbnail_url(get_the_ID(), 'professorLandscape'),
           ));
         }
+        
+        if (get_post_type() == 'event') {
+          $eventDay = new DateTime(get_field('event_date'));
+          $month = $eventDay->format('M');
+          $day = $eventDay->format('d');
+          $description = wp_trim_words(get_the_content(), 5);
+          array_push($result['events'], array (
+            'title' => get_the_title(),
+            'permalink' => get_the_permalink(),
+            'month' => $month,
+            'day' => $day,
+            'description' => $description,
+          ));
+        }
       }
       
       $result['professor'] = array_values(array_unique($result['professor'], SORT_REGULAR));
+      $result['events'] = array_values(array_unique($result['events'], SORT_REGULAR));
     }
     
     return $result;

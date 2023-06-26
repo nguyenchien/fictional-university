@@ -85,7 +85,7 @@ class Search {
             <div class="one-third">
               <h2 class="search-overlay__section-title">Professor</h2>
               ${result.professor.length ? '<ul class="professor-cards">' : `<p>No professor found! Let view <a href="${universityData.root_url}/professor">all professor</a></p>`}
-              ${result.professor.length && result.professor.map(item => {
+              ${result.professor.map(item => {
                 return `
                   <li class="professor-card__list-item">
                     <a href="${item.permalink}" class="professor-card">

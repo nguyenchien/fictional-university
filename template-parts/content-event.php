@@ -1,5 +1,5 @@
 <div class="event-summary">
-  <a class="event-summary__date t-center" href="#">
+  <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
     <?php
       $eventDay = new DateTime(get_field('event_date'));
       $month = $eventDay->format('M');

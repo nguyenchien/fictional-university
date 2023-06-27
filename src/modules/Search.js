@@ -19,12 +19,12 @@ class Search {
   // 2. events
   events() {
     this.openButton.forEach((elem) => {
-      elem.addEventListener("click", (e) =>{
-        elem.preventDefault(e);
+      elem.addEventListener("click", (e) => {
+        e.preventDefault();
         this.openOverlay();
       })
     })
-    this.closeButton.addEventListener("click", () => this.openOverlay());
+    this.closeButton.addEventListener("click", () => this.closeOverlay());
     document.addEventListener("keydown", (e) => this.keyPressDispathcher(e));
     this.searchField.addEventListener("keyup", () => this.typingLogic());
   }

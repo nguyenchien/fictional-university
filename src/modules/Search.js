@@ -124,9 +124,9 @@ class Search {
 
   keyPressDispathcher (e) {
     let keyCode = e.keyCode;
-    if (keyCode === 83 && !this.isOverlayOpen) { // key: 's'
-      this.openOverlay();
-    }
+    // if (keyCode === 83 && !this.isOverlayOpen) { // key: 's'
+    //   this.openOverlay();
+    // }
     if (keyCode === 27 && this.isOverlayOpen) { // key: 'esc'
       this.closeOverlay();
     }
@@ -140,6 +140,7 @@ class Search {
       this.searchField.focus();
     }, 301);
     this.isOverlayOpen = true;
+    return false;
   }
 
   closeOverlay() {

@@ -1,6 +1,6 @@
 <?php get_header(); 
   pageBanner(array(
-    'title' => 'This is the common title',
+    'title' => 'Search Page',
     'subtitle' => 'This is the common subtitle',
   ));
 ?>
@@ -41,7 +41,13 @@
         </div>
       <?php endif; ?>
       <div class="generic-content">
-        <?php the_content(); ?>
+        <form class="search-form" action="<?php echo esc_url(site_url('/')); ?>" method="get">
+          <label for="s" class="headline headline--medium">Perform a New Search:</label>
+          <div class="search-form-row">
+            <input type="text" name="s" class="s" placeholder="What are you looking for?">
+            <button type="submit" class="search-submit">Search</button>
+          </div>
+        </form>
       </div>
     </div>
   <?php endwhile; ?>

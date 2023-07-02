@@ -120,4 +120,22 @@
     }
   }
   
+  // customize login screen
+  add_filter( 'login_headerurl', 'myLoginLogoUrl' );
+  function myLoginLogoUrl() {
+    return esc_url(site_url('/'));
+  }
+  
+  add_filter( 'login_headertext', 'myLoginLogoTxt' );
+  function myLoginLogoTxt() {
+    return get_bloginfo();
+  }
+  
+  add_filter( 'login_enqueue_scripts', 'myLoginCss' );
+  function myLoginCss() {
+    wp_enqueue_style('font-google', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+    wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+    wp_enqueue_style('university_main_style', get_theme_file_uri('/build/style-index.css'));
+    wp_enqueue_style('university_extra_style', get_theme_file_uri('/build/index.css'));
+  }
 ?>

@@ -1,4 +1,13 @@
-FIX for live reload / browser sync / browsersync
+********************************
+  Plugin use for site
+********************************
+1. Advanced Custom Fields
+2. Members - Membership & User Role Editor Plugin
+3. Regenerate Thumbnails
+
+********************************
+  FIX for live reload / browser sync / browsersync
+********************************
 
 1. Install Browser Sync: npm install browser-sync
 

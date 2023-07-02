@@ -100,4 +100,24 @@
   function get_post_meta_for_api() {
     return get_the_author();
   }
+  
+  // redirect subscriber accounts out of admin and go to home page
+  add_action('admin_init','redirectSubtoFrontEnd');
+  function redirectSubtoFrontEnd() {
+    $ourCurrentUser = wp_get_current_user();
+    if (count($ourCurrentUser->roles) == 1 && $ourCurrentUser->roles[0] === 'subscriber') {
+      wp_redirect(site_url('/'));
+      exit;
+    }
+  }
+  
+  // hide admin bar for subscriber accounts
+  add_action('wp_loaded','hideSubAdminBar');
+  function hideSubAdminBar() {
+    $ourCurrentUser = wp_get_current_user();
+    if (count($ourCurrentUser->roles) == 1 && $ourCurrentUser->roles[0] === 'subscriber') {
+      show_admin_bar(false);
+    }
+  }
+  
 ?>

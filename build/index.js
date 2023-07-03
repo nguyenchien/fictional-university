@@ -2183,7 +2183,21 @@ class MyNotes {
 
   // methods
   deleteNote() {
-    alert("hello 123");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
+      url: universityData.root_url + '/wp-json/wp/v2/note/127',
+      method: 'DELETE',
+      success: response => {
+        console.log('success');
+        console.log(response);
+      },
+      error: response => {
+        console.log('error');
+        console.log(response);
+      }
+    });
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MyNotes);

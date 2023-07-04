@@ -1,20 +1,25 @@
 import $ from "jquery";
 
 class MyNotes {
-  // constructor
+  /* constructor
+  ====================================================*/
   constructor() {
     this.events();
   }
   
-  // events
+  /* events
+  ====================================================*/
   events() {
     $(".delete-note").on("click", this.deleteNote);
     $(".edit-note").on("click", this.editNote.bind(this));
+    $(".update-note").on("click", this.updateNote.bind(this));
   }
   
-  // methods
+  /* methods
+  ====================================================*/
+  // edit note
   editNote(e) {
-    let thisNote = $(e.target).parents('li');
+    var thisNote = $(e.target).parents('li');
     if (thisNote.data("state") == 'editable') {
       this.makeNoteReadOnly(thisNote);
     } else {
@@ -33,8 +38,34 @@ class MyNotes {
     thisNote.find(".update-note").removeClass("update-note--visible");
     thisNote.data("state", "cancel");
   }
+  
+    // update note
+    updateNote(e) {
+      var thisNote = $(e.target).parents('li');
+      var updateNoteData = {
+        'title': thisNote.find(".note-title-field").val(),
+        'content': thisNote.find(".note-body-field").val(),
+      };
+      $.ajax({
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+        },
+        url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+        method: 'POST',
+        data: updateNoteData,
+        success: (response) => {
+          this.makeNoteReadOnly(thisNote);
+          console.log('success');
+        },
+        error: (error) => {
+          console.log('error');
+        }
+      })
+    }
+  
+  // delete note
   deleteNote(e) {
-    let thisNote = $(e.target).parents('li');
+    var thisNote = $(e.target).parents('li');
     $.ajax({
       beforeSend: function (xhr) {
         xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
@@ -45,7 +76,7 @@ class MyNotes {
         thisNote.slideUp();
         console.log('success');
       },
-      error: (response) => {
+      error: (error) => {
         console.log('error');
       }
     })

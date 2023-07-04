@@ -2171,20 +2171,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
 class MyNotes {
-  // constructor
+  /* constructor
+  ====================================================*/
   constructor() {
     this.events();
   }
 
-  // events
+  /* events
+  ====================================================*/
   events() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".delete-note").on("click", this.deleteNote);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".edit-note").on("click", this.editNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".update-note").on("click", this.updateNote.bind(this));
   }
 
-  // methods
+  /* methods
+  ====================================================*/
+  // edit note
   editNote(e) {
-    let thisNote = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).parents('li');
+    var thisNote = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).parents('li');
     if (thisNote.data("state") == 'editable') {
       this.makeNoteReadOnly(thisNote);
     } else {
@@ -2203,8 +2208,34 @@ class MyNotes {
     thisNote.find(".update-note").removeClass("update-note--visible");
     thisNote.data("state", "cancel");
   }
+
+  // update note
+  updateNote(e) {
+    var thisNote = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).parents('li');
+    var updateNoteData = {
+      'title': thisNote.find(".note-title-field").val(),
+      'content': thisNote.find(".note-body-field").val()
+    };
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
+      url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+      method: 'POST',
+      data: updateNoteData,
+      success: response => {
+        this.makeNoteReadOnly(thisNote);
+        console.log('success');
+      },
+      error: error => {
+        console.log('error');
+      }
+    });
+  }
+
+  // delete note
   deleteNote(e) {
-    let thisNote = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).parents('li');
+    var thisNote = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).parents('li');
     jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
       beforeSend: function (xhr) {
         xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
@@ -2215,7 +2246,7 @@ class MyNotes {
         thisNote.slideUp();
         console.log('success');
       },
-      error: response => {
+      error: error => {
         console.log('error');
       }
     });

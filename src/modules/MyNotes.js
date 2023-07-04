@@ -10,9 +10,10 @@ class MyNotes {
   /* events
   ====================================================*/
   events() {
-    $(".delete-note").on("click", this.deleteNote);
-    $(".edit-note").on("click", this.editNote.bind(this));
-    $(".update-note").on("click", this.updateNote.bind(this));
+    $("#myNotes").on("click", ".delete-note", this.deleteNote);
+    $("#myNotes").on("click", ".edit-note", this.editNote.bind(this));
+    $("#myNotes").on("click", ".update-note", this.updateNote.bind(this));
+    $("#myNotes").on("click", ".submit-note", this.createNote.bind(this));
   }
   
   /* methods
@@ -39,29 +40,63 @@ class MyNotes {
     thisNote.data("state", "cancel");
   }
   
-    // update note
-    updateNote(e) {
-      var thisNote = $(e.target).parents('li');
-      var updateNoteData = {
-        'title': thisNote.find(".note-title-field").val(),
-        'content': thisNote.find(".note-body-field").val(),
-      };
-      $.ajax({
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
-        },
-        url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
-        method: 'POST',
-        data: updateNoteData,
-        success: (response) => {
-          this.makeNoteReadOnly(thisNote);
-          console.log('success');
-        },
-        error: (error) => {
-          console.log('error');
-        }
-      })
-    }
+  // create note
+  createNote(e) {
+    var createNoteData = {
+      'title': $(".new-note-title").val(),
+      'content': $(".new-note-body").val(),
+      'status': 'publish',
+    };
+    $.ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
+      url: universityData.root_url + '/wp-json/wp/v2/note/',
+      method: 'POST',
+      data: createNoteData,
+      success: (response) => {
+        $(".new-note-title, .new-note-body").val('');
+        $(".new-note-title").focus();
+        $(`
+          <li data-id="${response.id}">
+            <input class="note-title-field" readonly type="text" value="${response.title.raw}">
+            <span class="edit-note"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="delete-note"><i class="fa fa-trash-o"></i> Delete</span>
+            <textarea class="note-body-field" readonly>${response.content.raw}</textarea>
+            <span class="update-note btn btn--blue btn--small"><i class="fa fa-save"></i> Save</span>
+          </li>
+        `).prependTo("#myNotes").hide().slideDown();
+        console.log('success');
+      },
+      error: (error) => {
+        console.log('error');
+      }
+    })
+  }
+  
+  // update note
+  updateNote(e) {
+    var thisNote = $(e.target).parents('li');
+    var updateNoteData = {
+      'title': thisNote.find(".note-title-field").val(),
+      'content': thisNote.find(".note-body-field").val(),
+    };
+    $.ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
+      url: universityData.root_url + '/wp-json/wp/v2/note/' + thisNote.data('id'),
+      method: 'POST',
+      data: updateNoteData,
+      success: (response) => {
+        this.makeNoteReadOnly(thisNote);
+        console.log('success');
+      },
+      error: (error) => {
+        console.log('error');
+      }
+    })
+  }
   
   // delete note
   deleteNote(e) {

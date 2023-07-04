@@ -5,7 +5,13 @@
   ));
 ?>
   <div class="container container--narrow page-section">
-    <ul class="min-list link-list">
+    <div class="create-note">
+      <h2 class="headline headline--medium">Create New Note</h2>
+      <input type="text" class="new-note-title" placeholder="Title">
+      <textarea class="new-note-body" placeholder="Your Note here..."></textarea>
+      <span class="submit-note">Create Note</span>
+    </div>
+    <ul id="myNotes" class="min-list link-list">
       <?php 
         $myNotes = new WP_Query(array(
           'post_type' => 'note',

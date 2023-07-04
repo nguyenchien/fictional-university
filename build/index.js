@@ -2180,9 +2180,10 @@ class MyNotes {
   /* events
   ====================================================*/
   events() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".delete-note").on("click", this.deleteNote);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".edit-note").on("click", this.editNote.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".update-note").on("click", this.updateNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".delete-note", this.deleteNote);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".edit-note", this.editNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".update-note", this.updateNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".submit-note", this.createNote.bind(this));
   }
 
   /* methods
@@ -2207,6 +2208,40 @@ class MyNotes {
     thisNote.find(".note-title-field, .note-body-field").attr('readonly', 'readonly').removeClass("note-active-field");
     thisNote.find(".update-note").removeClass("update-note--visible");
     thisNote.data("state", "cancel");
+  }
+
+  // create note
+  createNote(e) {
+    var createNoteData = {
+      'title': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title").val(),
+      'content': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-body").val(),
+      'status': 'publish'
+    };
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
+      url: universityData.root_url + '/wp-json/wp/v2/note/',
+      method: 'POST',
+      data: createNoteData,
+      success: response => {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title, .new-note-body").val('');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title").focus();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(`
+          <li data-id="${response.id}">
+            <input class="note-title-field" readonly type="text" value="${response.title.raw}">
+            <span class="edit-note"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="delete-note"><i class="fa fa-trash-o"></i> Delete</span>
+            <textarea class="note-body-field" readonly>${response.content.raw}</textarea>
+            <span class="update-note btn btn--blue btn--small"><i class="fa fa-save"></i> Save</span>
+          </li>
+        `).prependTo("#myNotes").hide().slideDown();
+        console.log('success');
+      },
+      error: error => {
+        console.log('error');
+      }
+    });
   }
 
   // update note

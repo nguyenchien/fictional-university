@@ -13,7 +13,7 @@ class MyNotes {
     $("#myNotes").on("click", ".delete-note", this.deleteNote);
     $("#myNotes").on("click", ".edit-note", this.editNote.bind(this));
     $("#myNotes").on("click", ".update-note", this.updateNote.bind(this));
-    $("#myNotes").on("click", ".submit-note", this.createNote.bind(this));
+    $(".submit-note").on("click", this.createNote.bind(this));
   }
   
   /* methods

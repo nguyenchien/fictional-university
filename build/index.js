@@ -2183,7 +2183,7 @@ class MyNotes {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".delete-note", this.deleteNote);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".edit-note", this.editNote.bind(this));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".update-note", this.updateNote.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#myNotes").on("click", ".submit-note", this.createNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".submit-note").on("click", this.createNote.bind(this));
   }
 
   /* methods

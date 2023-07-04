@@ -139,4 +139,13 @@
     wp_enqueue_style('university_main_style', get_theme_file_uri('/build/style-index.css'));
     wp_enqueue_style('university_extra_style', get_theme_file_uri('/build/index.css'));
   }
+  
+  // make note to private
+  add_filter('wp_insert_post_data', 'makeNotePrivate');
+  function makeNotePrivate($data) {
+    if ($data['post_type'] == 'note' && $data['post_status'] != 'draft') {
+      $data['post_status'] = "private";
+    }
+    return $data;
+  }
 ?>

@@ -2217,6 +2217,11 @@ class MyNotes {
       'content': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-body").val(),
       'status': 'publish'
     };
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title").val() === "" || jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-body").val() === "") {
+      alert("Please enter a title or body of your new note!");
+      return false;
+    }
+    ;
     jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
       beforeSend: function (xhr) {
         xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);

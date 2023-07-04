@@ -47,6 +47,10 @@ class MyNotes {
       'content': $(".new-note-body").val(),
       'status': 'publish',
     };
+    if ($(".new-note-title").val() === "" || $(".new-note-body").val() === "") {
+      alert("Please enter a title or body of your new note!");
+      return false;
+    };
     $.ajax({
       beforeSend: function (xhr) {
         xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
@@ -71,7 +75,7 @@ class MyNotes {
       error: (error) => {
         console.log('error');
       }
-    })
+    });
   }
   
   // update note

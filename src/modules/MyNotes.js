@@ -71,9 +71,11 @@ class MyNotes {
           </li>
         `).prependTo("#myNotes").hide().slideDown();
         console.log('success');
+        console.log(response);
       },
       error: (error) => {
         console.log('error');
+        console.log(error);
       }
     });
   }

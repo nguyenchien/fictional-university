@@ -103,9 +103,7 @@ function university_post_types() {
     ),
     'menu_icon' => 'dashicons-welcome-write-blog'
   ));
-  
 }
-
 add_action('init', 'university_post_types');
 
 ********************************

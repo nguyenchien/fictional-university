@@ -10,6 +10,7 @@
       <input type="text" class="new-note-title" placeholder="Title">
       <textarea class="new-note-body" placeholder="Your Note here..."></textarea>
       <span class="submit-note">Create Note</span>
+      <span class="note-limit-message">You have reached your note limit (3 notes/user). Please delete one and add more!</span>
     </div>
     <ul id="myNotes" class="min-list link-list">
       <?php 

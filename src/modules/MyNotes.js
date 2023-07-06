@@ -73,9 +73,13 @@ class MyNotes {
         console.log('success');
         console.log(response);
       },
-      error: (error) => {
+      error: (response) => {
         console.log('error');
-        console.log(error);
+        console.log(response);
+        let respondText = response.responseText.replace('\n  ', '');
+        if (respondText == 'You have reached your note limit.') {
+          $(".note-limit-message").addClass('active');
+        }
       }
     });
   }
@@ -97,9 +101,11 @@ class MyNotes {
       success: (response) => {
         this.makeNoteReadOnly(thisNote);
         console.log('success');
+        console.log(response);
       },
-      error: (error) => {
+      error: (response) => {
         console.log('error');
+        console.log(response);
       }
     })
   }
@@ -116,9 +122,14 @@ class MyNotes {
       success: (response) => {
         thisNote.slideUp();
         console.log('success');
+        console.log(response);
+        if (response.userNoteCount < 4) {
+          $(".note-limit-message").removeClass('active');
+        }
       },
-      error: (error) => {
+      error: (response) => {
         console.log('error');
+        console.log(response);
       }
     })
   }

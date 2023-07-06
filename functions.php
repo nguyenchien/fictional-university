@@ -94,8 +94,16 @@
   // register_rest_field api
   add_action('rest_api_init', 'university_custom_rest');
   function university_custom_rest() {
+    // register field: authorName
     register_rest_field( 'post', 'authorName', array(
       'get_callback' => 'get_post_meta_for_api'
+    ));
+    
+    // register field: userNoteCount
+    register_rest_field( 'note', 'userNoteCount', array(
+      'get_callback' => function(){
+        return count_user_posts(get_current_user_id(), 'note');
+      },
     ));
   }
   function get_post_meta_for_api() {
@@ -144,13 +152,13 @@
   add_filter('wp_insert_post_data', 'makeNotePrivate', 11, 2);
   function makeNotePrivate($data, $postarr) {
     if ($data['post_type'] == 'note') {
-      if (count_user_posts(get_current_user_id(), 'note') > 3 && !$postarr['ID']) {
-        die("You have reached your note limit!");
+      if (count_user_posts(get_current_user_id(), 'note') > 2 && !$postarr['ID']) {
+        die('You have reached your note limit.');
       }
       $data['post_title'] = sanitize_text_field($data['post_title']);
       $data['post_content'] = sanitize_textarea_field($data['post_content']);
     }
-    if ($data['post_type'] == 'note' && $data['post_status'] != 'draft') {
+    if ($data['post_type'] == 'note' && $data['post_status'] != 'draft' && $data['post_status'] == 'private') {
       $data['post_status'] = "private";
     }
     return $data;

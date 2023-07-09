@@ -148,9 +148,9 @@
     wp_enqueue_style('university_extra_style', get_theme_file_uri('/build/index.css'));
   }
   
-  // make note to private
-  add_filter('wp_insert_post_data', 'makeNotePrivate', 11, 2);
-  function makeNotePrivate($data, $postarr) {
+  // limit note
+  add_filter('wp_insert_post_data', 'makeNoteLimit', 11, 2);
+  function makeNoteLimit($data, $postarr) {
     $user = wp_get_current_user();
     $isAdmin = $user->roles[0] == 'administrator';
     if ($data['post_type'] == 'note') {
@@ -160,6 +160,9 @@
       $data['post_title'] = sanitize_text_field($data['post_title']);
       $data['post_content'] = sanitize_textarea_field($data['post_content']);
     }
+    // if ($data['post_type'] == 'note' && $data['post_status'] != 'draft' && $data['post_status'] == 'private') {
+    //   $data['post_status'] = "private";
+    // }
     return $data;
   }
 ?>

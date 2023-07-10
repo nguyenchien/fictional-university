@@ -101,17 +101,25 @@ class MyNotes {
       return false;
     };
     
-    var ourNewPost = {
+    var newNoteData = {
       "title": document.querySelector(".new-note-title").value,
       "content": document.querySelector(".new-note-body").value,
       "status": "private"
     }
 
     try {
-      const response = await axios.post(universityData.root_url + "/wp-json/wp/v2/note/", ourNewPost)
-      if (response.data != "\n  You have reached your note limit.") {
+      const response = await axios.post(universityData.root_url + "/wp-json/wp/v2/note/", newNoteData)
+      const arrText = [
+        "You have reached your note limit.",
+        "\n  You have reached your note limit.",
+        "\r\n  You have reached your note limit.",
+      ];
+      if (arrText.includes(response.data)) {
+        document.querySelector(".note-limit-message").classList.add("active")
+      } else {
         document.querySelector(".new-note-title").value = ""
         document.querySelector(".new-note-body").value = ""
+        document.querySelector(".note-unauthorized").classList.remove("active")
         document.querySelector("#my-notes").insertAdjacentHTML(
           "afterbegin",
           ` <li data-id="${response.data.id}" class="fade-in-calc">
@@ -126,11 +134,10 @@ class MyNotes {
         setTimeout(function () {
           newlyCreated.classList.remove("fade-in-calc")
         }, 50);
-      } else {
-        document.querySelector(".note-limit-message").classList.add("active")
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
+      document.querySelector(".note-unauthorized").classList.add("active")
     }
   }
 }

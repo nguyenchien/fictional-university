@@ -11,6 +11,7 @@
       <textarea class="new-note-body" placeholder="Your Note here..."></textarea>
       <span class="submit-note">Create Note</span>
       <span class="note-limit-message">You have reached your note limit (3 notes/user). Please delete one and add more!</span>
+      <span class="note-limit-message note-unauthorized">You have <a href="<?php echo wp_login_url(); ?>">login</a> for note. If you haven't an account. Please <a href="<?php echo wp_registration_url(); ?>">register</a> here!</span>
     </div>
     <ul id="my-notes" class="min-list link-list">
       <?php 

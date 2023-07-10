@@ -1,6 +1,9 @@
 <?php
-  // register rest api route
-  require_once( get_template_directory() . '/inc/search-route.php' );
+  // register custom rest api: search route
+  require get_theme_file_path('/inc/search-route.php');
+
+  // register custom rest api: like route
+  require get_theme_file_path('/inc/like-route.php');
 
   // page banner
   function pageBanner($args = array()) {

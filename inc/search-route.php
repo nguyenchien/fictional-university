@@ -1,6 +1,6 @@
 <?php
-  add_action('rest_api_init', 'university_custom_route');
-  function university_custom_route() {
+  add_action('rest_api_init', 'universityRegisterSearch');
+  function universityRegisterSearch() {
     register_rest_route('university/v1', '/search/', array(
       'methods' => 'GET',
       'callback' => 'universitySearchResult',

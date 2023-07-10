@@ -1,6 +1,7 @@
 import axios from "axios"
 
 class MyNotes {
+  // constructor
   constructor() {
     if (document.querySelector("#my-notes")) {
       axios.defaults.headers.common["X-WP-Nonce"] = universityData.nonce
@@ -9,15 +10,23 @@ class MyNotes {
     }
   }
 
+  // events
   events() {
     this.myNotes.addEventListener("click", e => this.clickHandler(e))
     document.querySelector(".submit-note").addEventListener("click", () => this.createNote())
   }
 
+  // methods
   clickHandler(e) {
-    if (e.target.classList.contains("delete-note") || e.target.classList.contains("fa-trash-o")) this.deleteNote(e)
-    if (e.target.classList.contains("edit-note") || e.target.classList.contains("fa-pencil") || e.target.classList.contains("fa-times")) this.editNote(e)
-    if (e.target.classList.contains("update-note") || e.target.classList.contains("fa-arrow-right")) this.updateNote(e)
+    if (e.target.classList.contains("delete-note") || e.target.classList.contains("fa-trash-o")) {
+      this.deleteNote(e)
+    }
+    if (e.target.classList.contains("edit-note") || e.target.classList.contains("fa-pencil") || e.target.classList.contains("fa-times")) {
+      this.editNote(e)
+    }
+    if (e.target.classList.contains("update-note") || e.target.classList.contains("fa-arrow-right")) {
+      this.updateNote(e)
+    }
   }
 
   findNearestParentLi(el) {
@@ -27,8 +36,7 @@ class MyNotes {
     }
     return thisNote
   }
-
-  // Methods will go here
+  
   editNote(e) {
     const thisNote = this.findNearestParentLi(e.target)
 

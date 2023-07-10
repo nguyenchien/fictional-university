@@ -2066,6 +2066,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 
 // Our modules / classes
@@ -2075,12 +2076,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 // Instantiate a new object using our modules/classes
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 // const GoogleMap = new GoogleMap()
 const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const myNotes = new _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+const like = new _modules_Like__WEBPACK_IMPORTED_MODULE_5__["default"]();
 
 /***/ }),
 
@@ -2123,6 +2126,51 @@ class HeroSlider {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class Like {
+  // constructor
+  constructor() {
+    this.events();
+  }
+
+  // events
+  events() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".like-box").on("click", this.ourClickDispatcher.bind(this));
+  }
+
+  // methods
+  ourClickDispatcher(e) {
+    var currentLikeBox = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).closest(".like-box");
+    if (currentLikeBox.data("exists") == "yes") {
+      this.deleteLike();
+    } else {
+      this.createLike();
+    }
+  }
+  createLike() {
+    alert("create like");
+  }
+  deleteLike() {
+    alert("delete like");
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Like);
 
 /***/ }),
 
@@ -2171,6 +2219,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 class MyNotes {
+  // constructor
   constructor() {
     if (document.querySelector("#my-notes")) {
       (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults).headers.common["X-WP-Nonce"] = universityData.nonce;
@@ -2178,14 +2227,24 @@ class MyNotes {
       this.events();
     }
   }
+
+  // events
   events() {
     this.myNotes.addEventListener("click", e => this.clickHandler(e));
     document.querySelector(".submit-note").addEventListener("click", () => this.createNote());
   }
+
+  // methods
   clickHandler(e) {
-    if (e.target.classList.contains("delete-note") || e.target.classList.contains("fa-trash-o")) this.deleteNote(e);
-    if (e.target.classList.contains("edit-note") || e.target.classList.contains("fa-pencil") || e.target.classList.contains("fa-times")) this.editNote(e);
-    if (e.target.classList.contains("update-note") || e.target.classList.contains("fa-arrow-right")) this.updateNote(e);
+    if (e.target.classList.contains("delete-note") || e.target.classList.contains("fa-trash-o")) {
+      this.deleteNote(e);
+    }
+    if (e.target.classList.contains("edit-note") || e.target.classList.contains("fa-pencil") || e.target.classList.contains("fa-times")) {
+      this.editNote(e);
+    }
+    if (e.target.classList.contains("update-note") || e.target.classList.contains("fa-arrow-right")) {
+      this.updateNote(e);
+    }
   }
   findNearestParentLi(el) {
     let thisNote = el;
@@ -2194,8 +2253,6 @@ class MyNotes {
     }
     return thisNote;
   }
-
-  // Methods will go here
   editNote(e) {
     const thisNote = this.findNearestParentLi(e.target);
     if (thisNote.getAttribute("data-state") == "editable") {
@@ -2486,6 +2543,17 @@ class Search {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["jQuery"];
 
 /***/ }),
 

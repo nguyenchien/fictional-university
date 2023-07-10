@@ -11,6 +11,30 @@
           </p>
         </div>
         <div class="generic-content">
+          <?php
+            $likeCount = new WP_Query(
+              array(
+                'post_type' =>  'like',
+                'meta_query' => array(
+                  array(
+                    'key' => 'liked_professor',
+                    'value' => get_the_ID(),
+                    'compare' => '=',
+                  )
+                )
+              )
+            );
+            
+            $existStatus = 'no';
+            if ($likeCount->found_posts) {
+              $existStatus = 'yes';
+            }
+          ?>
+          <span class="like-box" data-exists="<?php echo $existStatus; ?>">
+            <i class="fa fa-heart-o" aria-hidden="true"></i>
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            <span class="like-count"><?php echo $likeCount->found_posts; ?></span>
+          </span>
           <div class="one-third">
             <?php the_post_thumbnail('professorPortrait'); ?>
           </div>

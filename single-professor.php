@@ -17,7 +17,7 @@
                 'post_type' =>  'like',
                 'meta_query' => array(
                   array(
-                    'key' => 'liked_professor',
+                    'key' => 'liked_professor_id',
                     'value' => get_the_ID(),
                     'compare' => '=',
                   )
@@ -30,7 +30,7 @@
               $existStatus = 'yes';
             }
           ?>
-          <span class="like-box" data-exists="<?php echo $existStatus; ?>">
+          <span class="like-box" data-id="<?php the_ID(); ?>" data-exists="<?php echo $existStatus; ?>">
             <i class="fa fa-heart-o" aria-hidden="true"></i>
             <i class="fa fa-heart" aria-hidden="true"></i>
             <span class="like-count"><?php echo $likeCount->found_posts; ?></span>

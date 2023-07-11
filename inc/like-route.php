@@ -12,8 +12,16 @@
     ));
   }
   
-  function createLike() {
-    return "Thanks for creating a like";
+  function createLike($data) {
+    $professor_id = $data['professor_id'];
+    wp_insert_post(array(
+      'post_type' => 'like',
+      'post_status' => 'publish',
+      'post_title' => 'Test Post',
+      'meta_input' => array(
+        'liked_professor_id' => $professor_id
+      )
+    ));
   }
   
   function deleteLike() {

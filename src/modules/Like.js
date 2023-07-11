@@ -24,6 +24,9 @@ class Like {
   createLike(currentLikeBox) {
     let id = currentLikeBox.data("id");
     $.ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
       url: universityData.root_url + '/wp-json/university/v1/manageLike',
       method: 'POST',
       data: {
@@ -40,6 +43,9 @@ class Like {
 
   deleteLike(currentLikeBox) {
     $.ajax({
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+      },
       url: universityData.root_url + '/wp-json/university/v1/manageLike',
       method: 'DELETE',
       success: (response) => {

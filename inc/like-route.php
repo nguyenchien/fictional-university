@@ -32,7 +32,7 @@
         return wp_insert_post(array(
           'post_type' => 'like',
           'post_status' => 'publish',
-          'post_title' => 'Test Post',
+          'post_title' => 'Like Title',
           'meta_input' => array(
             'liked_professor_id' => $professor_id
           )
@@ -41,11 +41,17 @@
         die("Invalid Professor ID.");
       }
     } else {
-      die("User must be logged in for a like.");
+      die("You must be logged in for a like.");
     }
   }
   
-  function deleteLike() {
-    return "Thanks for deleting a like";
+  function deleteLike($data) {
+    $like_id = sanitize_text_field($data['like_id']);
+    if (is_user_logged_in() && get_post_type($like_id) == 'like' && get_post_field('post_author', $like_id) == get_current_user_id()) {
+      wp_delete_post($like_id, true);
+      return "Success deleted a like.";
+    } else {
+      die('You must be logged in for delete a like.');
+    }
   }
 ?>

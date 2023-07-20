@@ -167,6 +167,7 @@
   }
   
   // exclude content from plugin All In One
+  // ai1wm_exclude_themes_from_export the path is already wp-content/themes/
   add_filter('ai1wm_exclude_themes_from_export', 'ignoreCertainFiles');
   function ignoreCertainFiles($exclude_filters) {
     $exclude_filters[] = 'fictional-university-theme/node_modules';
